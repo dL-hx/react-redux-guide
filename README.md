@@ -1,3 +1,7 @@
+> 更新master分支命令
+> $         git pull origin master
+
+
 1.0 react-reduxdemo1 基础版本实现
 
 1.1 Provider组件与connect方法
