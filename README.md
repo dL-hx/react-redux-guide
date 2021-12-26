@@ -3,7 +3,9 @@
 1.1 Provider组件与connect方法
 
 为了使react 和 redux进行结合 ，需要通过 react-redux 模块实现连接
+
 npm install react-redux --save
+
 --
 
 ```
