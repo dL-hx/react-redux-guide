@@ -1,12 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import {increment, decrement} from './../../index'
+import { bindActionCreators } from "redux";
+import { increment, decrement } from "./../../index";
+
+import * as counterActions  from './../../store/actions/counter.actions'
 
 // function Counter(props) {
 // 解构操作
-function Counter({count, addCount, minusCount, dispatch}) {
+function Counter({ count, addCount, minusCount, dispatch }) {
   console.log(count);
-  
+
   return (
     <div>
       {/* <button onClick={() => store.dispatch(increment)}>+</button> */}
@@ -22,39 +25,39 @@ function Counter({count, addCount, minusCount, dispatch}) {
   );
 }
 
-
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state) => {
   return {
     // a:'b',
-    count:state.count
-  }
-}
+    count: state.count,
+  };
+};
+/* 
+const mapDispatchToProps = (dispatch) => ({
+  // 用于生成函数
+  ...bindActionCreators(
+    {
+      addCount() {
+        return {type:'increment'};
+      },
 
-
-
-const mapDispatchToProps = (dispatch)=>{
-  
-  return {
-    // addCount:function (data) {
-    //   dispatch(increment)
-    // },
-
-    // 简化后如下
-    addCount(data) {
-      dispatch(increment)
+      minusCount() {
+        return {type:'decrement'};
+      },
     },
-
-    minusCount(data) {
-      dispatch(decrement)
-    },
-
-
     dispatch
-  }
-}
+  ),
+}); */
 
 
-export default connect(mapStateToProps,mapDispatchToProps )(Counter);
+// const mapDispatchToProps = (dispatch) => ({
+//   // 用于生成函数
+//   ...bindActionCreators(counterActions, dispatch),
+// });
+
+const mapDispatchToProps = (dispatch) => (bindActionCreators(counterActions, dispatch));
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 /* 
   
 connect 作用
