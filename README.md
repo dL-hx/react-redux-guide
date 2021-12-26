@@ -56,3 +56,106 @@ export default connect(mapStateToProps,mapDispatchToProps )(Counter);
 
 
 ```
+
+1.2 bindActionsCreators方法
+
+
+https://github.com/dL-hx/react-redux-guide
+
+feat/1.2.0分支
+
+
+
+ 目的： 调用方法生成函数， 优化如下代码
+
+```js
+const mapDispatchToProps = (dispatch)=>{
+  
+  return {
+    // addCount:function (data) {
+    //   dispatch(increment)
+    // },
+
+    // 简化后如下
+    addCount(data) {
+      dispatch(increment)
+    },
+
+    minusCount(data) {
+      dispatch(decrement)
+    },
+
+
+    dispatch
+  }
+}
+```
+
+优化后
+
+```js
+import { bindActionCreators } from "redux";
+
+
+const mapDispatchToProps = (dispatch) => ({
+  // 用于生成函数
+  ...bindActionCreators(
+    {
+      addCount() {
+        return increment;
+      },
+
+      minusCount() {
+        return decrement;
+      },
+    },
+    dispatch
+  ),
+  
+});
+```
+
+等价于
+
+```js
+const mapDispatchToProps = (dispatch) => ({
+  // 用于生成函数
+  ...bindActionCreators(
+    {
+      addCount() {
+        return {type:'increment'};
+      },
+
+      minusCount() {
+        return {type:'decrement'};
+      },
+    },
+    dispatch
+  ),
+});
+```
+
+
+
+
+
+``` js
+import * as counterActions  from './../../store/actions/counter.actions'
+
+
+const mapDispatchToProps = (dispatch) => ({
+  // 用于生成函数
+  ...bindActionCreators(counterActions, dispatch),
+});
+```
+
+
+
+一个action简化如下
+
+``` js
+const mapDispatchToProps = (dispatch) =>
+(bindActionCreators(counterActions, dispatch));
+
+```
+
