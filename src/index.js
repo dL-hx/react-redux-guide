@@ -1,17 +1,53 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import { createStore } from "redux";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const initialState = {
+  count: 0,
+};
+
+function reducer(state = initialState, actions) {
+  switch (actions.type) {
+    case "increment": // 数值 + 1 ,返回一个新对象
+      return {
+        count: state.count + 1
+      }
+
+    case "decrement":
+      return {
+        count: state.count - 1
+      }
+    default:
+      return state;
+  }
+
+
+}
+
+const increment = { type: "increment" };
+const decrement = { type: "decrement" };
+
+const store = createStore(reducer);
+
+function Counter() {
+  return (
+    <div>
+      <button onClick={() => store.dispatch(increment)}>+</button>
+      <span>{store.getState().count}</span>
+      <button onClick={() => store.dispatch(decrement)}>-</button>
+    </div>
+  );
+}
+
+// 必须要订阅订阅数据更新,返回一个新的组件
+store.subscribe(()=>{// 订阅数据返回新的数值
+  ReactDOM.render(<Counter />, document.getElementById("root"));
+})
+
+
+
+// console.log("store", store.getState());
+
+ReactDOM.render(<Counter />, document.getElementById("root"));
