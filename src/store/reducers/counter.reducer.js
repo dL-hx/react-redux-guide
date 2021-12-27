@@ -8,12 +8,14 @@ function reducer(state = initialState, actions) {
       switch (actions.type) {
         case INCREMENT: // 数值 + 1 ,返回一个新对象
           return {
-            count: state.count + 1,
+            // count: state.count + 1,
+            count: state.count + actions.payload,
           };
     
         case DECREMENT:
           return {
-            count: state.count - 1,
+            // count: state.count - 1,
+            count: state.count - actions.payload,
           };
         default:
           return state;

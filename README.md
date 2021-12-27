@@ -165,6 +165,38 @@ https://github.com/dL-hx/react-redux-guide
 
 feat/1.3.0分支feat/1.3.0分支
 
+App.js
+
+```js
+import React from "react";
+import ReactDOM from "react-dom";
+// import App from "./App";
+import Counter from "./components/Counter";
+
+import {store} from "./store";
+
+// import { createStore } from "redux";
+import { Provider } from "react-redux";
+
+/* 
+react-redux 
+  Provider: 将store放到全局中，  组件都能拿到的地方
+  connect
+*/
+
+
+ReactDOM.render(
+  // 通过Provider 组件， 将store 放到了全局组件可以够得到的地方
+  <Provider store={store}>
+    <Counter />
+  </Provider>,
+  document.getElementById("root")
+);
+
+```
+
+
+
 1.将reducer函数， 创建store代码放到store代码中
 
 store
@@ -232,3 +264,39 @@ export const DECREMENT= "decrement"
 
 2. 将action类型代码拆分为常量，防止写错
    INCREMENT, DECREMENT
+
+   ## 1.4 Action传递参数
+   #### 1. 传递参数
+
+点击按钮时候数值 + 5
+
+``` jsx
+<button onClick={()=>addCount(5)}> + 1</button>
+```
+
+
+
+#### 2.接收参数, 传递reducer
+
+```jsx
+export const addCount = payload =>({type:INCREMENT, payload });
+```
+
+
+
+#### 3. reducer根据接收到的数据进行处理
+
+``` jsx
+export default (state, actions)=>{
+    switch(actions.type){
+        case INCREMENT:
+            return {count: state.count + actions.payload }
+    }
+}
+```
+
+
+
+https://github.com/dL-hx/react-redux-guide
+
+feat/1.4.0分支
