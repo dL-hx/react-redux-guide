@@ -11,9 +11,9 @@ function Counter({ count, addCount, minusCount, dispatch }) {
 
   return (
     <div>
-      <button onClick={addCount}>+</button>
+      <button onClick={()=>addCount(5)}>+ 5 </button>
       <span>{count}</span>
-      <button onClick={minusCount}>-</button>
+      <button onClick={()=>minusCount(5)}>- 5</button>
     </div>
   );
 }
