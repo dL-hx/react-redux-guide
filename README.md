@@ -300,3 +300,121 @@ export default (state, actions)=>{
 https://github.com/dL-hx/react-redux-guide
 
 feat/1.4.0分支
+
+## 1.5 Redux弹出框
+https://github.com/dL-hx/react-redux-guide
+
+feat/1.5.0分支
+
+
+
+reducers/counter.reducer.js
+
+```js
+import { INCREMENT, DECREMENT } from "../const/counter.const";
+import { SHOW_MODAL, HIDE_MODAL } from "../const/modal.const";
+
+const initialState = {
+  count: 0,
+  show: false,
+};
+
+function reducer(state = initialState, actions) {
+  switch (actions.type) {
+    case INCREMENT: // 数值 + 1 ,返回一个新对象
+      return {
+        ...state,
+        // count: state.count + 1,
+        count: state.count + actions.payload,
+      };
+
+    case DECREMENT:
+      return {
+        ...state,
+        // count: state.count - 1,
+        count: state.count - actions.payload,
+      };
+
+    // 这里需要保存原有的state,进行拷贝
+    case SHOW_MODAL:
+      return {
+        ...state,
+        show: true,
+      };
+
+    case HIDE_MODAL:
+      return {
+        ...state,
+        show: false,
+      };
+    default:
+      return state;
+  }
+}
+
+export default reducer;
+
+```
+
+modal.actions.js
+
+```js
+import { SHOW_MODAL, HIDE_MODAL } from "../const/modal.const";
+
+export const show = () => ({ type: SHOW_MODAL });
+export const hide = () => ({ type: HIDE_MODAL });
+```
+
+components/Modal/index.js
+
+```js
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as modalActions from "./../../store/actions/modal.actions";
+
+function Modal(props) {
+  
+  const styles = {
+    width: 200,
+    height: 200,
+    position: "absolute",
+    left: "50%",
+    top: "50%",
+    // marginLeft 等于,负的 自己盒子W的一半
+    // -200/2 = -100
+    marginLeft: -100,
+    // marginTop 等于,负的 自己盒子H的一半
+    // -200/2 = -100
+    marginTop: -100,
+    backgroundColor: "skyblue",
+    display: props.vist ? "block" : "none",
+  };
+
+  return (
+    <div>
+      <button onClick={()=>props.show()}>显示</button>
+      <button onClick={()=>props.hide()}>隐藏</button>
+      {/*  {
+             props.show&&<div style={styles}></div>
+        } */}
+      <div style={styles}></div>
+    </div>
+  );
+}
+
+// export default Modal;
+const mapStateToProps = (state) => {
+  return {
+    vist: state.show,
+  };
+};
+
+const mapDispatchToProps=(dispatch)=>{
+    return bindActionCreators(modalActions, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);
+
+```
+

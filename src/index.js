@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import App from "./App";
-import Counter from "./components/Counter";
+import App from "./App";
+// import Counter from "./components/Counter";
 
 import {store} from "./store";
 
@@ -41,7 +41,7 @@ react-redux
 ReactDOM.render(
   // 通过Provider 组件， 将store 放到了全局组件可以够得到的地方
   <Provider store={store}>
-    <Counter />
+    <App />
   </Provider>,
   document.getElementById("root")
 );
