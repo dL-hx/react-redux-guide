@@ -3,6 +3,8 @@
 > 报错的解决
 > https://blog.csdn.net/soindy/article/details/44077831?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.pc_relevant_paycolumn_v2&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.pc_relevant_paycolumn_v2&utm_relevant_index=1
 
+@[toc]
+
 ## 1.0 react-reduxdemo1 基础版本实现
 
 ## 1.1 Provider组件与connect方法
@@ -417,5 +419,78 @@ const mapDispatchToProps=(dispatch)=>{
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);
 
+```
+## 1.6 拆分Reducer
+https://github.com/dL-hx/react-redux-guide
+
+feat/1.5.0分支
+
+既匹配了counter的reducer,又匹配了modal的reducer,看如何拆分reducer,又能将其进行组合
+### 1. 拆分reducer
+
+counter.reducer.js
+
+modal.reducer.js
+
+### 2. 合并reducer
+
+combineReducers
+
+``` js
+ import { combineReducers } from 'redux'
+```
+
+
+
+``` js
+// root reducer 用来reducer的合并
+ import { combineReducers } from 'redux'
+
+//  1. 拆分reducer
+ import CounterReducer from './counter.reducer'
+ import ModalReducer from './modal.reducer'
+
+ // 2. 合并reducer
+ // {counter:{count:0}, model:{show:false}}
+export default combineReducers({
+    counter: CounterReducer,
+    modal: ModalReducer,
+})
+```
+
+
+
+\src\store\index.js
+
+``` js
+import { createStore } from "redux";
+// import reducer from './reducers/counter.reducer'
+// 改为合并后的reducers
+import RootReducer from './reducers/root.reducer'
+
+export const store = createStore(RootReducer);
+```
+
+
+
+调用时候修改如下
+
+``` js
+const mapStateToProps = (state) => {
+  return {
+    vist: state.modal.show,
+  };
+};
+```
+
+
+
+``` js
+const mapStateToProps = (state) => {
+  return {
+    // a:'b',
+    count: state.counter.count,
+  };
+};
 ```
 

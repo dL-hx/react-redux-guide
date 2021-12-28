@@ -36,7 +36,7 @@ function Modal(props) {
 // export default Modal;
 const mapStateToProps = (state) => {
   return {
-    vist: state.show,
+    vist: state.modal.show,
   };
 };
 

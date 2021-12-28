@@ -23,7 +23,18 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "import/no-anonymous-default-export": ["error", {
+        "allowArray": false,
+        "allowArrowFunction": true,
+        "allowAnonymousClass": false,
+        "allowAnonymousFunction": false,
+        "allowCallExpression": true, 
+        "allowLiteral": false,
+        "allowObject": false
+      }]
+    }
   },
   "browserslist": {
     "production": [
