@@ -1,6 +1,7 @@
 > 更新master分支命令
 > $         git pull origin master
-
+> 报错的解决
+> https://blog.csdn.net/soindy/article/details/44077831?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.pc_relevant_paycolumn_v2&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.pc_relevant_paycolumn_v2&utm_relevant_index=1
 
 ## 1.0 react-reduxdemo1 基础版本实现
 
