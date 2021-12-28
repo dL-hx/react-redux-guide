@@ -1,9 +1,7 @@
 import { INCREMENT, DECREMENT } from "../const/counter.const";
-import { SHOW_MODAL, HIDE_MODAL } from "../const/modal.const";
 
 const initialState = {
   count: 0,
-  show: false,
 };
 
 function reducer(state = initialState, actions) {
@@ -22,17 +20,6 @@ function reducer(state = initialState, actions) {
         count: state.count - actions.payload,
       };
 
-    case SHOW_MODAL:
-      return {
-        ...state,
-        show: true,
-      };
-
-    case HIDE_MODAL:
-      return {
-        ...state,
-        show: false,
-      };
     default:
       return state;
   }
