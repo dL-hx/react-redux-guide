@@ -29,7 +29,7 @@
         "allowArray": false,
         "allowArrowFunction": true,
         "allowAnonymousClass": false,
-        "allowAnonymousFunction": false,
+        "allowAnonymousFunction": true,
         "allowCallExpression": true, 
         "allowLiteral": false,
         "allowObject": false

@@ -7,7 +7,7 @@ import * as counterActions  from './../../store/actions/counter.actions'
 // function Counter(props) {
 // 解构操作
 function Counter({ count, addCount, minusCount, dispatch }) {
-  console.log(count);
+  // console.log(count);
 
   return (
     <div>

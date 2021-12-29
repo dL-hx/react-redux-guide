@@ -423,7 +423,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Modal);
 ## 1.6 拆分Reducer
 https://github.com/dL-hx/react-redux-guide
 
-feat/1.5.0分支
+feat/1.6.0分支
 
 既匹配了counter的reducer,又匹配了modal的reducer,看如何拆分reducer,又能将其进行组合
 ### 1. 拆分reducer
@@ -492,5 +492,152 @@ const mapStateToProps = (state) => {
     count: state.counter.count,
   };
 };
+```
+
+## 1.7 开发Redux中间件
+
+https://github.com/dL-hx/react-redux-guide
+
+feat/1.7.0分支
+### 3.3 开发Redux中间件
+
+开发中间件的模板代码
+
+```js
+export default store => next =>action=> {}
+```
+
+### 3.4 注册中间件
+
+将开发好的中间件需要 为store注册,  这个中间件才会生效
+
+> 中间件在开发完成以后只有被注册才能在Redux的工作流程中生效
+
+./store/index.js
+
+```js
+import {createStore, applyMiddleware } from 'redux';
+import logger from './middlewares/logger';
+
+createStore(reducer, applyMiddleware( 
+    logger
+));
+```
+
+
+
+```
+//项目目录
+|____react-redux-guide
+|____src
+| |____...
+| |____store
+| 	|____actions
+| 	|____const
++ 	|____middleware
++ 		|____logger.js
+| 	|____reducers
+| 	|____index.js
+
+
+
+```
+
+./middleware/logger.js
+
+``` js
+// 导出中间件的模板代码
+export default function (store) {
+    return function (next) {
+        return function (action) {
+            // 在这里执行自己的逻辑
+        }
+    }
+}
+```
+
+===> 简化为
+
+箭头函数的写法简化
+
+``` js
+export default (store) => (next) => (action) => {
+    // 在这里执行自己的逻辑
+};
+```
+
+1. 定义中间件
+
+``` js
+export default (store) => (next) => (action) => {
+    // 在这里执行自己的逻辑
+
+    // 输出store
+    console.log(store);
+
+    // 输出这个action
+    console.log(action);
+
+    // <调用>next 方法
+    // 目的: 将这个action 传递给 reducer,
+    // 并将action 传递给reducer
+    next(action);
+    
+};
+```
+
+2. 注册中间件
+
+./store/index.js
+
+``` js
+import { createStore, applyMiddleware } from "redux";
+// import reducer from './reducers/counter.reducer'
+// 改为合并后的reducers
+import RootReducer from "./reducers/root.reducer";
+
+// 引入中间件
+import logger from "./middleware/logger";
+
+// 注册中间件
+export const store = createStore(RootReducer, applyMiddleware(logger));
+
+```
+
+发现中间件组件已经被注册.
+
+
+
+
+
+多个中间件的注册,   多中间件的执行顺序
+
+./middleware/test
+
+``` js
+export default (store) => (next) => (action) => {
+    console.log('test 中间件被执行了');
+    next(action) // 需要传递给下一个中间件,让reducer接收,否则代码卡到这里不会向下执行
+};
+```
+
+
+
+``` js
+import { createStore, applyMiddleware } from "redux";
+// import reducer from './reducers/counter.reducer'
+// 改为合并后的reducers
+import RootReducer from "./reducers/root.reducer";
+
+// 引入中间件
+import logger from "./middleware/logger";
+import test from "./middleware/test";
+
+// 注册中间件-------------(执行顺序取决于这里的注册顺序)
+export const store = createStore(RootReducer, applyMiddleware(
+    logger,
+    test
+));
+
 ```
 
