@@ -5,7 +5,7 @@ export const addCount = (payload)=> ({type:INCREMENT, payload })
 export const minusCount = (payload)=> ({type: DECREMENT, payload })
 
 
-export const addCount_async_1 = ()=> ({type: INCREMENT_ASYNC })
+export const addCount_async_1 = (payload)=> ({type: INCREMENT_ASYNC, payload })
 
 
 export const addCount_async = (payload)=> (dispatch)=>{

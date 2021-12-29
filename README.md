@@ -973,5 +973,48 @@ export default function* counterSaga() {
    <button onClick={addCount_async}>+ 5 </button>
 ```
 
+## 2.1 redux-saga传参
 
+
+https://github.com/dL-hx/react-redux-guide
+
+feat/2.1.0分支
+
+
+
+页面调用
+
+```js
+ <button onClick={()=>addCount_async_1(20)}>+ 5 </button>
+```
+
+.\store\sagas\counter.saga.js
+
+```js
+export const addCount_async_1 = (payload)=> ({type: INCREMENT_ASYNC, payload })
+```
+
+.\store\sagas\counter.saga.js
+
+```js
+...
+
+function* addCount_async_1_fn(action){
+   yield delay(2000)
+
+    // 从形参中, 获取页面层组件,   传递来的参数
+//    yield put(addCount(10))
+     // 再次触发action, 修改state状态
+   yield put(addCount(action.payload))
+}
+
+
+
+// saga文件默认要求: 导出一个generater函数
+export default function* counterSaga() {
+  // 接收action
+  // 参数1:接收类型字符串
+  yield takeEvery(INCREMENT_ASYNC, addCount_async_1_fn);
+}
+```
 
