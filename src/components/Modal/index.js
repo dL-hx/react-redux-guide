@@ -23,7 +23,8 @@ function Modal(props) {
 
   return (
     <div>
-      <button onClick={()=>props.show()}>显示</button>
+      {/* <button onClick={()=>props.show()}>显示</button> */}
+      <button onClick={()=>props.show_async()}>显示</button>
       <button onClick={()=>props.hide()}>隐藏</button>
       {/*  {
              props.show&&<div style={styles}></div>

@@ -641,3 +641,118 @@ export const store = createStore(RootReducer, applyMiddleware(
 
 ```
 
+
+
+## 1.8 开发Redux中间件实例
+
+https://github.com/dL-hx/react-redux-guide
+
+feat/1.8.0分支
+
+延迟相加/延迟相减
+
+通过中间件完成
+延迟相加/延迟弹窗展示
+
+通过中间件完成
+
+**在redux工作流中加入异步操作**
+
+在修改时候,不会修改中间件代码,这样设计比较灵活.
+
+.\store\middleware\thunk.js
+
+```js
+export default store =>next => action =>{
+    // 1.当前这个中间件函数不关心你想执行什么样的异步操作,  只关心你是不是异步操作
+
+    // 2. 如果是异步操作,  触发action, 传递为一个函数
+
+    // 3. 如果是同步操作,传递action 对象
+
+    // 4. 异步操作写在你传递进来的函数
+
+    // 5. 当前这个中间件函数在调用你传递的函数时候,  将dispatch 传递过去
+
+    // 6. 在函数中,通过dispatch 派发action --->reducer保存数据
+
+    // 让action自己决定什么时候,进行dispatch 数据
+    if(typeof action === 'function'){
+        return action(store.dispatch)
+    }
+
+    next(action)
+
+
+
+    // if(action.type==='increment'||action.type==='decrement'){
+    //     setTimeout(()=>{
+    //         next(action)// 延迟两秒后生效
+    //     },2000)
+    // }
+}
+```
+
+
+
+
+
+```js
+import { createStore, applyMiddleware } from "redux";
+// import reducer from './reducers/counter.reducer'
+// 改为合并后的reducers
+import RootReducer from "./reducers/root.reducer";
+
+// 引入中间件
+import logger from "./middleware/logger";
+import test from "./middleware/test";
+import thunk from "./middleware/thunk";
+
+// 注册中间件
+export const store = createStore(RootReducer, applyMiddleware(
+    logger,
+    test,
+    thunk
+));
+
+```
+
+.\store\actions\modal.actions.js
+
+``` js
+// 让弹出框延迟显示
+
+export const show_async = ()=> (dispatch)=>{
+    setTimeout(()=>{
+        dispatch(show())
+    },2000)
+}
+```
+
+.\store\actions\counter.actions.js
+
+```js
+import { INCREMENT ,DECREMENT } from "../const/counter.const";
+//---------------=> action 对象
+export const addCount = (payload)=> ({type:INCREMENT, payload })
+
+export const addCount_async = (payload)=> (dispatch)=>{
+    setTimeout(()=>{
+        // 两秒后派发dispatch ,到reducer 处理
+        dispatch(addCount(payload))
+        // 等价于这个
+        // dispatch({type:INCREMENT, payload })
+    },2000)
+}
+```
+
+组件代码调用
+
+```js
+  <button onClick={()=>addCount_async(5)}>+ 5 </button>
+```
+
+```js
+  <button onClick={()=>props.show_async()}>显示</button>
+```
+
