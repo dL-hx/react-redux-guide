@@ -6,11 +6,16 @@ import RootReducer from "./reducers/root.reducer";
 // 引入中间件
 import logger from "./middleware/logger";
 import test from "./middleware/test";
-import thunk from "./middleware/thunk";
+// import thunk from "./middleware/thunk";
+
+// 注册redux-thunk;
+import thunk from 'redux-thunk';
 
 // 注册中间件
-export const store = createStore(RootReducer, applyMiddleware(
-    logger,
-    test,
-    thunk
-));
+// export const store = createStore(RootReducer, applyMiddleware(
+//     logger,
+//     test,
+//     thunk
+// ));
+
+export const store = createStore(RootReducer, applyMiddleware(thunk));

@@ -11,6 +11,7 @@
     "react-redux": "^7.2.6",
     "react-scripts": "5.0.0",
     "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
@@ -25,15 +26,18 @@
       "react-app/jest"
     ],
     "rules": {
-      "import/no-anonymous-default-export": ["error", {
-        "allowArray": false,
-        "allowArrowFunction": true,
-        "allowAnonymousClass": false,
-        "allowAnonymousFunction": true,
-        "allowCallExpression": true, 
-        "allowLiteral": false,
-        "allowObject": false
-      }]
+      "import/no-anonymous-default-export": [
+        "error",
+        {
+          "allowArray": false,
+          "allowArrowFunction": true,
+          "allowAnonymousClass": false,
+          "allowAnonymousFunction": true,
+          "allowCallExpression": true,
+          "allowLiteral": false,
+          "allowObject": false
+        }
+      ]
     }
   },
   "browserslist": {
