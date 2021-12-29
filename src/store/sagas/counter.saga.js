@@ -5,14 +5,16 @@ import { INCREMENT_ASYNC } from "../const/counter.const";
 // put 触发action
 
 
-function* addCount_async_1_fn(){
+function* addCount_async_1_fn(action){
+    
    // 执行异步操作
    // 注意: 在generater函数中,   延迟不能使用setTimeout
 
    // 1. 暂停延迟2s
    yield delay(2000)
    // 2. put 触发action
-   yield put(addCount(10))
+//    yield put(addCount(10))
+   yield put(addCount(action.payload))
 }
 
 
