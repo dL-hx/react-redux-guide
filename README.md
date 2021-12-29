@@ -816,3 +816,162 @@ export const addCount_async = (payload)=> (dispatch)=>{
 
 
 ```
+
+## 2.0 Redux常用中间件
+redux-saga
+
+https://github.com/dL-hx/react-redux-guide
+
+feat/2.0.0分支
+
+文档学习:
+
+https://redux-saga-in-chinese.js.org/docs/introduction/BeginnerTutorial.html
+
+API_DOC:
+
+https://redux-saga-in-chinese.js.org/docs/api/
+
+#### 4.2.1 redux-saga解决的问题
+
+>  redux-saga可以**将异步操作从Action Creater文件中抽离出来**, 放在一个单独的文件中.
+
+比redux-thunk 更好用,功能类似
+
+#### 4.2.2 redux-saga 下载
+
+``` shell
+$	npm install redux-saga --save
+```
+
+#### 4.2.3 创建redux-saga 中间件
+
+``` js
+import createSagaMiddleware from 'redux-saga';
+const sagaMiddleware = createSagaMiddleware();
+```
+
+sagaMiddleware注册给store
+
+#### 4.2.4 注册redux-saga
+
+```  js
+createStore(RootReducer, applyMiddleware(sagaMiddleware));
+```
+
+#### 4.2.5 使用saga接收action执行异步操作
+
+https://github.com/dL-hx/react-redux-guide
+
+feat/2.0.0分支
+
+```js
+import {takeEvery, put} from 'redux-saga/effects';// 引入两个异步方法
+
+function* load_post(){
+    const {data} = yield axios.get('/api/posts.json');
+    // put: 用来触发另外一个action,当异步操作时候,  触发action reducer,保存状态
+    yield put(load_posts_success(data))
+}
+
+// saga:文件中,  要求默认导出一个generater 函数
+export default function* postSaga(){
+    // takeEvery:用来接收action,通过takeEvery方法接收组件触发的action
+    
+    // 接收到的action类型string,    接收这个action 需要执行的方法
+    yield takeEvery(LOAD_POSTS, load_posts)
+}
+```
+
+
+
+#### 4.2.6 启动saga
+
+> 目的:这样做,所写的saga文件才会被加入到redux的工作流中.
+
+```js
+import postSaga from './store/sagas/post.saga';
+
+sagaMiddleware.run(postSaga)
+```
+
+.\store\index.js
+
+```js
+import { createStore, applyMiddleware } from "redux";
+// import reducer from './reducers/counter.reducer'
+// 改为合并后的reducers
+import RootReducer from "./reducers/root.reducer";
+
+import createSagaMiddleware from 'redux-saga'
+
+import counterSaga from './sagas/counter.saga';
+
+
+// 创建sagaMiddleware,创建中间件
+const sagaMiddleware = createSagaMiddleware()
+
+// 注册redux-saga
+export const store = createStore(RootReducer, applyMiddleware(sagaMiddleware));
+
+// 启动counterSaga, 这样才会加入redux工作流中
+sagaMiddleware.run(counterSaga)
+
+```
+
+
+
+.\store\actions\counter.actions.js
+
+``` js
+import { INCREMENT ,DECREMENT , INCREMENT_ASYNC } from "../const/counter.const";
+//---------------=> action 对象
+export const addCount = (payload)=> ({type:INCREMENT, payload })
+
+...
+
++ export const addCount_async = ()=> ({type: INCREMENT_ASYNC })
+
+```
+
+
+
+.\store\sagas\counter.saga.js
+
+``` js
+import { takeEvery, put , delay } from "redux-saga/effects"; // 引入两个异步方法
+import { addCount } from "../actions/counter.actions";
+import { INCREMENT_ASYNC } from "../const/counter.const";
+// takeEvery 接收action
+// put 触发action
+
+
+function* addCount_async_fn(){
+   // 执行异步操作
+   // 注意: 在generater函数中,   延迟不能使用setTimeout
+
+   // 1. 暂停延迟2s
+   yield delay(2000)
+   // 2. put 触发action,更新了reducer
+   yield put(addCount(10))
+}
+
+
+
+// saga文件默认要求: 导出一个generater函数
+export default function* counterSaga() {
+  // 接收action
+  // 参数1:接收类型字符串
+  // 参数2:异步方法执行的函数.
+  yield takeEvery(INCREMENT_ASYNC, addCount_async_fn);
+}
+```
+
+页面调用
+
+```js
+   <button onClick={addCount_async}>+ 5 </button>
+```
+
+
+
