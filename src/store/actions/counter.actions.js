@@ -1,8 +1,11 @@
-import { INCREMENT ,DECREMENT } from "../const/counter.const";
+import { INCREMENT ,DECREMENT , INCREMENT_ASYNC } from "../const/counter.const";
 //---------------=> action 对象
 export const addCount = (payload)=> ({type:INCREMENT, payload })
 
 export const minusCount = (payload)=> ({type: DECREMENT, payload })
+
+
+export const addCount_async_1 = ()=> ({type: INCREMENT_ASYNC })
 
 
 export const addCount_async = (payload)=> (dispatch)=>{
