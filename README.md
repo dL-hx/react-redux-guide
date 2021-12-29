@@ -756,3 +756,63 @@ export const addCount_async = (payload)=> (dispatch)=>{
   <button onClick={()=>props.show_async()}>显示</button>
 ```
 
+
+## 1.9 Redux常用中间件
+
+https://github.com/dL-hx/react-redux-guide
+
+feat/1.9.0分支
+### 4.1 redux-thunk
+
+> 允许在redux操作过程中加入异步操作
+
+#### 4.1.1 redux-thunk 下载
+
+``` shell
+$	npm install redux-thunk --save
+```
+
+使用插件就不需要我们去手写中间件了
+
+#### 4.1.2 引入redux-thunk
+
+``` js
+import thunk from 'redux-thunk';
+```
+
+#### 4.1.3 注册redux-thunk
+
+```js
+import thunk from 'redux-thunk';
+
+// 注册中间件
+export const store = createStore(RootReducer, applyMiddleware(thunk));
+
+```
+
+#### 4.1.4 使用redux-thunk中间件
+
+```js
+const loadPosts = () => async dispatch =>{
+    const posts = await axios.get('/api/posts').then(response=>response.data)
+    dispatch({type:LOAD_POST_SUCCESS, payload:posts })
+}
+
+```
+
+action中调用如下
+
+.\store\actions\counter.actions.js
+
+``` js
+export const addCount_async = (payload)=> (dispatch)=>{
+    setTimeout(()=>{
+        // 两秒后派发dispatch ,到reducer 处理
+        dispatch(addCount(payload))
+        // 等价于这个
+        // dispatch({type:INCREMENT, payload })
+    },2000)
+}
+
+
+```
