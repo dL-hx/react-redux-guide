@@ -13,9 +13,9 @@ import RootReducer from "./reducers/root.reducer";
 
 import createSagaMiddleware from 'redux-saga'
 
-import counterSaga from './sagas/counter.saga';
+// import counterSaga from './sagas/counter.saga';
 
-
+import rootSaga from './sagas/root.saga';
 
 // 注册中间件
 // export const store = createStore(RootReducer, applyMiddleware(
@@ -33,4 +33,5 @@ const sagaMiddleware = createSagaMiddleware()
 export const store = createStore(RootReducer, applyMiddleware(sagaMiddleware));
 
 // 启动counterSaga, 这样才会加入redux工作流中
-sagaMiddleware.run(counterSaga)
+// sagaMiddleware.run(counterSaga)
+sagaMiddleware.run(rootSaga)
