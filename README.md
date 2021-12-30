@@ -1021,4 +1021,4 @@ export default function* counterSaga() {
 ## 2.2 redux-saga拆分
 https://github.com/dL-hx/react-redux-guide
 
-feat/2.1.0分支
+feat/2.2.0分支
