@@ -1,5 +1,5 @@
 import { takeEvery, put, delay } from "redux-saga/effects"; // 引入两个异步方法
-import { addCount } from "../actions/counter.actions";
+import { addCount_Action } from "../actions/counter.actions";
 import { INCREMENT_ASYNC } from "../const/counter.const";
 // takeEvery 接收action
 // put 触发action
@@ -12,7 +12,7 @@ function* addCount_async_1_fn(action) {
   yield delay(2000);
   // 2. put 触发action
   //    yield put(addCount(10))
-  yield put(addCount(action.payload));
+  yield put(addCount_Action(action.payload));
 }
 
 
