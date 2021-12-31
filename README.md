@@ -1022,3 +1022,16 @@ export default function* counterSaga() {
 https://github.com/dL-hx/react-redux-guide
 
 feat/2.2.0分支
+
+## 2.3 redux-actions
+https://github.com/dL-hx/react-redux-guide
+
+feat/2.3.0分支
+
+redux-actions解决的问题
+
+redux流程中大量的样版代码读写很痛苦
+,如action, reducer, const,等
+,使用**redux-actions**可以简化Action和Reducer的处理
+
+
